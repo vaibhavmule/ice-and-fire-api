@@ -31,7 +31,6 @@ class CreateUpdateBookSerializer(serializers.ModelSerializer):
         fields = ('name', 'isbn', 'authors', 'number_of_pages', 'publisher', 'country', 'release_date')
 
     def create(self, validated_data):
-        print(validated_data.get('authors'), ','.join(validated_data.get('authors')))
         validated_data['authors'] = ','.join(validated_data.get('authors'))
         return Book.objects.create(**validated_data)
 
@@ -56,6 +55,5 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'isbn', 'authors', 'number_of_pages', 'publisher', 'country', 'release_date')
 
     def get_authors(self, obj):
-        print('obj', obj.authors )
         return obj.authors.split(',')
 

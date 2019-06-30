@@ -15,3 +15,9 @@ $ make
 ```sh
 $ make test
 ```
+
+## Run coverage
+
+```sh
+$ make coverage
+```
