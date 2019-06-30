@@ -9,6 +9,7 @@ djangorestframework = "*"
 requests = "*"
 
 [dev-packages]
+coverage = "*"
 
 [requires]
 python_version = "3.7"

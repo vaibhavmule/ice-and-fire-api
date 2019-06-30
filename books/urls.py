@@ -9,7 +9,7 @@ from books import views
 
 
 urlpatterns = [
-    path('external-books', views.ExternalBook.as_view()),
+    path('external-books', views.ExternalBook.as_view(), name='external_books'),
 ]
 
 router = DefaultRouter()
