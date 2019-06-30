@@ -4,7 +4,9 @@
 
 ## Install
 
-Make sure Python 3.7 and PIP is installed.
+Make sure you have clones this repository, Python 3.7 and PIP is installed.
+
+Go to folder and run following command to install required dependancies.
 
 ```sh
 $ make
