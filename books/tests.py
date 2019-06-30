@@ -77,7 +77,7 @@ class GetAllBooksTest(TestCase):
         Book.objects.create(**book_2)
 
     def test_get_all_books(self):
-        response = client.get('/api/v1/books/')
+        response = client.get('/api/v1/books')
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
         self.assertEqual(response.data, {
@@ -120,7 +120,7 @@ class RetriveBookTest(TestCase):
         self.book_2 = Book.objects.create(**book_2)
 
     def test_retrive_book(self):
-        response = client.get('/api/v1/books/1/')
+        response = client.get('/api/v1/books/1')
         book = Book.objects.get(pk=self.book_1.pk)
         serializer = BookSerializer(book)
         self.assertEqual(response.data, {
@@ -131,7 +131,7 @@ class RetriveBookTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_retrive_invalid_book(self):
-        response = client.get('/api/v1/books/100000/')
+        response = client.get('/api/v1/books/100000')
         self.assertEqual(response.status_code, 404)
 
 
@@ -153,7 +153,7 @@ class CreateBookTest(TestCase):
 
     def test_create_book(self):
         response = client.post(
-            '/api/v1/books/',
+            '/api/v1/books',
             data=json.dumps(self.payload),
             content_type='application/json'
         )
@@ -191,7 +191,7 @@ class UpdateBookTest(TestCase):
 
     def test_update_book(self):
         response = client.put(
-            f'/api/v1/books/{self.book_1.pk}/',
+            f'/api/v1/books/{self.book_1.pk}',
             data=json.dumps(self.payload),
             content_type='application/json'
         )
@@ -218,9 +218,9 @@ class DeleteBookTest(TestCase):
         self.book_1 = Book.objects.create(**book_1)
 
     def test_delete_book(self):
-        response = client.delete(f'/api/v1/books/{self.book_1.pk}/')
+        response = client.delete(f'/api/v1/books/{self.book_1.pk}')
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_delete_book(self):
-        response = client.delete(f'/api/v1/books/100000/')
+        response = client.delete(f'/api/v1/books/100000')
         self.assertEqual(response.status_code, 404)
