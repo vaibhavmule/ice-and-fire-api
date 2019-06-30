@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .serializers import ExternalBookSerializer, BookSerializer
+from .serializers import ExternalBookSerializer, CreateUpdateBookSerializer, BookSerializer
 from .models import Book
 
 
@@ -30,6 +30,12 @@ class BookViewSet(viewsets.ModelViewSet):
     """Book CRUD API"""
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    create_serializer_class = CreateUpdateBookSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update']:
+            return self.create_serializer_class
+        return self.serializer_class
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -47,7 +53,7 @@ class BookViewSet(viewsets.ModelViewSet):
         return Response({
             "status_code": 200,
             "status": "success",
-            "data": serializer.data
+            "data": {'book': serializer.data}
         })
 
     def retrieve(self, request, *args, **kwargs):
@@ -68,10 +74,11 @@ class BookViewSet(viewsets.ModelViewSet):
         return Response({
             "status_code": 200,
             "status": "success",
+            "message": f"The book {instance.name} was updated successfully",
             "data": serializer.data
         })
 
-    def destroy(self, request):
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
         return Response({
